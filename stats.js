@@ -71,7 +71,7 @@ config.configFile(process.argv[2], function (config, oldConfig) {
 
         numStats += 1;
       }
-
+      var meanOnly = config.meanOnly
       for (key in timers) {
         if (timers[key].length > 0) {
           var pctThreshold = config.percentThreshold || 90;
@@ -102,10 +102,12 @@ config.configFile(process.argv[2], function (config, oldConfig) {
 
           var message = "";
           message += 'stats.timers.' + key + '.mean ' + mean + ' ' + ts + "\n";
-          message += 'stats.timers.' + key + '.upper ' + max + ' ' + ts + "\n";
-          message += 'stats.timers.' + key + '.upper_' + pctThreshold + ' ' + maxAtThreshold + ' ' + ts + "\n";
-          message += 'stats.timers.' + key + '.lower ' + min + ' ' + ts + "\n";
-          message += 'stats.timers.' + key + '.count ' + count + ' ' + ts + "\n";
+          if (!config.meanOnly){
+            message += 'stats.timers.' + key + '.upper ' + max + ' ' + ts + "\n";
+            message += 'stats.timers.' + key + '.upper_' + pctThreshold + ' ' + maxAtThreshold + ' ' + ts + "\n";
+            message += 'stats.timers.' + key + '.lower ' + min + ' ' + ts + "\n";
+            message += 'stats.timers.' + key + '.count ' + count + ' ' + ts + "\n";
+          } 
           statString += message;
 
           numStats += 1;
